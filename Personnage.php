@@ -1,39 +1,89 @@
 <?php
 
-namespace Personnage;
+include "DatabaseEvol.php";
 
-
-class Personnage extends \Bdd
+/**
+ * Class Personnage
+ */
+class Personnage extends DatabaseEvol
 {
 
-private $lifespan;
-
-private $growth;
-
-private $birthsize;
-
-private $man;
-
-private $location;
+    /**
+     * @var int
+     */
+    private $lifeSpan;
 
     /**
-     * @return mixed
+     * @var float
      */
-    public function getLifespan()
+    private $growth;
+
+    /**
+     * @var float
+     */
+    private $birthSize;
+
+    /**
+     * @var bool
+     */
+    private $man;
+
+    /**
+     * @var int
+     */
+    private $location;
+
+    /**
+     * Personnage constructor.
+     *
+     */
+    public function __construct()
     {
-        return $this->lifespan;
+//  Randomiszation of the value of lifeSpan
+        $lifeSpan =mt_rand(0,100);
+        $this->lifeSpan = $lifeSpan;
+
+//  Randomization of the value of growth factor
+        $growth = mt_rand(0.8, 1.2);
+        $this->growth = $growth;
+
+//  Randomization of the value of the size at birth
+        $birthSize = mt_rand(42,57);
+        $this->birthSize = $birthSize;
+        var_dump($birthSize);
+
+//  Randomization of the gender of the personnage
+        $hazard =  mt_rand(0, 100);
+        if ($hazard < 50)  {
+            $man = true;
+        } else {
+            $man = false;
+        }
+        $this->man = $man;
+
+//  Randomization of the value of the location
+        $location = mt_rand(1, 100);
+        $this->location = $location;
     }
 
     /**
-     * @param mixed $lifespan
+     * @return int
      */
-    public function setLifespan($lifespan)
+    public function getLifeSpan()
     {
-        $this->lifespan = $lifespan;
+        return $this->lifeSpan;
     }
 
     /**
-     * @return mixed
+     * @param int $lifeSpan
+     */
+    public function setLifeSpan($lifeSpan)
+    {
+        $this->lifeSpan = $lifeSpan;
+    }
+
+    /**
+     * @return float
      */
     public function getGrowth()
     {
@@ -41,7 +91,7 @@ private $location;
     }
 
     /**
-     * @param mixed $growth
+     * @param float $growth
      */
     public function setGrowth($growth)
     {
@@ -53,27 +103,27 @@ private $location;
     }
 
     /**
-     * @return mixed
+     * @return float
      */
-    public function getBirthsize()
+    public function getBirthSize()
     {
 
-        return $this->birthsize;
+        return $this->birthSize;
     }
 
     /**
-     * @param mixed $birthsize
+     * @param float $birthSize
      */
-    public function setBirthsize($birthsize)
+    public function setBirthSize($birthSize)
     {
-        if ($birthsize < 42 || $birthsize > 57){
-            $this->setBirthsize(42);
+        if ($birthSize < 42 || $birthSize > 57){
+            $this->setBirthSize(42);
         }
-        $this->birthsize = $birthsize;
+        $this->birthSize = $birthSize;
     }
 
     /**
-     * @return mixed
+     * @return boolean
      */
     public function getMan()
     {
@@ -81,7 +131,7 @@ private $location;
     }
 
     /**
-     * @param mixed $man
+     * @param boolean $man
      */
     public function setMan($man)
     {
@@ -89,7 +139,7 @@ private $location;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getLocation()
     {
@@ -97,7 +147,7 @@ private $location;
     }
 
     /**
-     * @param mixed $location
+     * @param int $location
      */
     public function setLocation($location)
     {
@@ -119,3 +169,5 @@ private $location;
 
     }
 }
+$Perso = new Personnage();
+var_dump($Perso);

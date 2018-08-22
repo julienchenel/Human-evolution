@@ -13,16 +13,15 @@ class DatabaseEvol
     public function __construct()
     {
         try {
-            $bdd = new PDO('mysql:host='.self::HOST.';dbname='.self::DBNAME, self::DBLOGIN, self::MDP);
-            $bdd->exec("SET CHARACTER SET utf8");
-            $bdd->exec("SET NAMES utf8");
+            $this->bdd = new PDO('mysql:host='.self::HOST.';dbname='.self::DBNAME, self::DBLOGIN, self::MDP);
+            $this->bdd->exec("SET CHARACTER SET utf8");
+            $this->bdd->exec("SET NAMES utf8");
 
             echo "Success";
         }
         catch(PDOException $e) {
             die('<h3>Erreur!</h3>');
         }
-        return $bdd;
     }
 
     public function createGlobalStat()

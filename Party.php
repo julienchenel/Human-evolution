@@ -6,17 +6,24 @@
  * Time: 12:31
  */
 
-class Party
+
+use function Composer\Autoload\includeFile;
+
+include "DatabaseEvol.php";
+
+class Party extends DatabaseEvol
 {
  protected $date;
-
     /**
      * Party constructor.
      * @param $date
      */
-    public function __construct($date)
+    public function __construct()
     {
-        $this->date = $date;
+        parent::__construct();
+
+        $this->date = date("Y-m-d H:i:s");
+
     }
 
     /**
@@ -37,6 +44,15 @@ class Party
 
     public function saveParty()
     {
+        $req = $this->bdd->prepare("INSERT INTO partie(date_partie) VALUES (?)");
+
+        $req->bindParam(1,$this->getDate(), PDO::PARAM_STR);
+
+        if ($req->execute()) {
+            echo "Happy is Vincent";
+        } else {
+            echo "Angry is Julien";
+        }
 
     }
 
@@ -46,3 +62,6 @@ class Party
     }
 
 }
+
+$Party = new Party();
+$Party->saveParty();

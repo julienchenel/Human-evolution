@@ -1,6 +1,8 @@
 <?php
 //namespace Perso;
 include "DatabaseEvol.php";
+use Party\Party;
+
 /**
  * Class Personnage
  */
@@ -46,13 +48,12 @@ class Personnage extends DatabaseEvol
         $this->lifeSpan = $lifeSpan;
 
 //  Randomization of the value of growth factor
-        $growth = mt_rand(0.8, 1.2);
+        $growth = mt_rand(80, 120)/100;
         $this->growth = $growth;
 
 //  Randomization of the value of the size at birth
         $birthSize = mt_rand(42,57);
         $this->birthSize = $birthSize;
-        var_dump($birthSize);
 
 //  Randomization of the gender of the personnage
         $hazard =  mt_rand(0, 100);
@@ -164,20 +165,24 @@ class Personnage extends DatabaseEvol
     {
         $req = $this->bdd->prepare("INSERT INTO personnage(lifespan, growth, location, man, birthsize) VALUES (?, ?, ?, ?, ?)");
 
-        $req->bind_param($this->getLifeSpan(), $this->getGrowth(), $this->getLocation(), $this->getMan(), $this->getBirthSize());
+        $req->bindParam(1,$this->getLifeSpan(), PDO::PARAM_INT);
+        $req->bindParam(2,$this->getGrowth(),PDO::PARAM_STR);
+        $req->bindParam(3,$this->getLocation(), PDO::PARAM_INT);
+        $req->bindParam(4,$this->getMan(), PDO::PARAM_INT);
+        $req->bindParam(5,$this->getBirthSize(), PDO::PARAM_STR);
 
-
-        if ($req->execute()) {
-            echo"c'est dans la boite";
+    if ($req->execute()) {
+        echo"c'est dans la boite";
+        $parts = new Party();
+        $parts->saveParty();
         } else {
             echo "Pas de bol";
         }
-
-        return var_dump($req);
     }
 
     public function associatePersoParty()
     {
+
 
 
     }
@@ -189,7 +194,6 @@ class Personnage extends DatabaseEvol
 
 }
 $Perso = new Personnage();
-//var_dump($Perso);
-print_r($Perso->savePerso());
+$Perso->savePerso();
 
 

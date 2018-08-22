@@ -5,7 +5,8 @@
  * Date: 21/08/18
  * Time: 12:40
  */
-
+//require \Perso\Personn
+//use Perso\Personnage;
 include "../Personnage.php";
 
 class PersonnageTest extends PHPUnit\Framework\TestCase

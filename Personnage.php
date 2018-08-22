@@ -1,7 +1,6 @@
 <?php
-
+//namespace Perso;
 include "DatabaseEvol.php";
-
 /**
  * Class Personnage
  */
@@ -37,8 +36,11 @@ class Personnage extends DatabaseEvol
      * Personnage constructor.
      *
      */
+
     public function __construct()
     {
+        parent::__construct();
+
 //  Randomiszation of the value of lifeSpan
         $lifeSpan =mt_rand(0,100);
         $this->lifeSpan = $lifeSpan;
@@ -65,6 +67,7 @@ class Personnage extends DatabaseEvol
         $location = mt_rand(1, 100);
         $this->location = $location;
     }
+
 
     /**
      * @return int
@@ -154,13 +157,28 @@ class Personnage extends DatabaseEvol
         $this->location = $location;
     }
 
-    public function  savePerso()
+    /**
+     * @return mixed
+     */
+    public function savePerso()
     {
+        $req = $this->bdd->prepare("INSERT INTO personnage(lifespan, growth, location, man, birthsize) VALUES (?, ?, ?, ?, ?)");
 
+        $req->bind_param($this->getLifeSpan(), $this->getGrowth(), $this->getLocation(), $this->getMan(), $this->getBirthSize());
+
+
+        if ($req->execute()) {
+            echo"c'est dans la boite";
+        } else {
+            echo "Pas de bol";
+        }
+
+        return var_dump($req);
     }
 
-    public function  associatePersoParty()
+    public function associatePersoParty()
     {
+
 
     }
 
@@ -168,6 +186,10 @@ class Personnage extends DatabaseEvol
     {
 
     }
+
 }
 $Perso = new Personnage();
-var_dump($Perso);
+//var_dump($Perso);
+print_r($Perso->savePerso());
+
+
